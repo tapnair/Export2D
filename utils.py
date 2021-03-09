@@ -53,8 +53,9 @@ def _confirm_apper():
 
     res = app.userInterface.messageBox(
         '<html>'
-        f"You need to installer apper to run this addin: {config.app_name}.\n"
-        f"Click here to learn more. <a href=https://apper.readthedocs.io/en/latest/>Click here to learn more.</a>\n"
+        f"You need to installer apper to run this addin: {config.app_name}.<br>"
+        f"Learn more at:<br>"
+        f" <a href=http://apper.readthedocs.io/en/latest/>http://apper.readthedocs.io/en/latest/</a><br>"
         f"Press <b>Yes</b> to confirm."
         '</html>',
         "Apper Installation",
