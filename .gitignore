@@ -4,6 +4,6 @@ __pycache__/
 .DS_STORE
 .DS_Store
 venv
-lib/*
-!lib/Place_3rd_Party_libraries_here.txt
+Export2D/lib/*
+!Export2D/lib/Place_3rd_Party_libraries_here.txt
 build/
