@@ -1,123 +1,84 @@
+"""
+DXFer, a Fusion 360 add-in
+================================
+DXFer is a Fusion 360 add-in for the bulk export of DXF Files.
+
+:copyright: (c) 2020 by Patrick Rainsberry.
+:license: Apache 2.0, see LICENSE for more details.
+
+DXFer leverages the ezdxf library.
+Copyright (C) 2011-2020, Manfred Moitzi
+License: MIT License
+
+
+Notice:
+-------
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+"""
 import adsk.core
 import traceback
-
-import os
+from . import config
+from . import utils
 
 try:
-    from . import config
+    utils.check_apper()
     from .apper import apper
 
-    # ************Samples**************
-    # Basic Fusion 360 Command Base samples
-    from .commands.SampleCommand1 import SampleCommand1
-    from .commands.SampleCommand2 import SampleCommand2
-
-    # Palette Command Base samples
-    from .commands.SamplePaletteCommand import SamplePaletteSendCommand, SamplePaletteShowCommand
-
-    # Various Application event samples
-    from .commands.SampleCustomEvent import SampleCustomEvent
-    from .commands.SampleDocumentEvents import SampleDocumentEvent1, SampleDocumentEvent2
-    from .commands.SampleWorkspaceEvents import SampleWorkspaceEvent
-    from .commands.SampleWebRequestEvent import SampleWebRequestOpened
-    from .commands.SampleCommandEvents import SampleCommandEvent
-    from .commands.SampleActiveSelectionEvents import SampleActiveSelectionEvent
+    # Import my commands
+    from .commands.DXFerCommands import DXFExportCommand, PDFExportCommand
 
     # Create our addin definition object
     my_addin = apper.FusionApp(config.app_name, config.company_name, False)
     my_addin.root_path = config.app_path
 
-    # Creates a basic Hello World message box on execute
     my_addin.add_command(
-        'Sample Command 1',
-        SampleCommand1,
+        'DXF Export',
+        DXFExportCommand,
         {
-            'cmd_description': 'Hello World!',
-            'cmd_id': 'sample_cmd_1',
+            'cmd_description': 'DXF Export of Multiple Faces',
+            'cmd_id': 'dxf_export_cmd',
             'workspace': 'FusionSolidEnvironment',
-            'toolbar_panel_id': 'Commands',
+            'toolbar_panel_id': '2D Export',
+            'toolbar_tab_name': 'TOOLS',
+            'toolbar_tab_id': 'ToolsTab',
             'cmd_resources': 'command_icons',
             'command_visible': True,
             'command_promoted': True,
+
         }
     )
 
-    # General command showing inputs and user interaction
     my_addin.add_command(
-        'Sample Command 2',
-        SampleCommand2,
+        'PDF Export',
+        PDFExportCommand,
         {
-            'cmd_description': 'A simple example of a Fusion 360 Command with various inputs',
-            'cmd_id': 'sample_cmd_2',
+            'cmd_description': 'PDF Export of Multiple Faces',
+            'cmd_id': 'pdf_export_cmd',
             'workspace': 'FusionSolidEnvironment',
-            'toolbar_panel_id': 'Commands',
+            'toolbar_panel_id': '2D Export',
+            'toolbar_tab_name': 'TOOLS',
+            'toolbar_tab_id': 'ToolsTab',
             'cmd_resources': 'command_icons',
             'command_visible': True,
-            'command_promoted': False,
-        }
-    )
-
-    # Create an html palette to as an alternative UI
-    my_addin.add_command(
-        'Sample Palette Command - Show',
-        SamplePaletteShowCommand,
-        {
-            'cmd_description': 'Shows the Fusion 360 Demo Palette',
-            'cmd_id': 'sample_palette_show',
-            'workspace': 'FusionSolidEnvironment',
-            'toolbar_panel_id': 'Palette',
-            'cmd_resources': 'palette_icons',
-            'command_visible': True,
             'command_promoted': True,
-            'palette_id': 'sample_palette',
-            'palette_name': 'Sample Fusion 360 HTML Palette',
-            'palette_html_file_url': os.path.join('commands', 'palette_html', 'Export2D.html'),
-            'palette_use_new_browser': True,
-            'palette_is_visible': True,
-            'palette_show_close_button': True,
-            'palette_is_resizable': True,
-            'palette_width': 500,
-            'palette_height': 600,
+
         }
     )
 
-    # Send data from Fusion 360 to the palette
-    my_addin.add_command(
-        'Send Info to Palette',
-        SamplePaletteSendCommand,
-        {
-            'cmd_description': 'Send data from a regular Fusion 360 command to a palette',
-            'cmd_id': 'sample_palette_send',
-            'workspace': 'FusionSolidEnvironment',
-            'toolbar_panel_id': 'Palette',
-            'cmd_resources': 'palette_icons',
-            'command_visible': True,
-            'command_promoted': False,
-            'palette_id': 'sample_palette',
-        }
-    )
-
-    app = adsk.core.Application.cast(adsk.core.Application.get())
-    ui = app.userInterface
-
-    # Uncomment as necessary.  Running all at once can be overwhelming :)
-    # my_addin.add_custom_event("Export2D_message_system", SampleCustomEvent)
-    # my_addin.add_document_event("Export2D_open_event", app.documentActivated, SampleDocumentEvent1)
-    # my_addin.add_document_event("Export2D_close_event", app.documentClosed, SampleDocumentEvent2)
-    # my_addin.add_workspace_event("Export2D_workspace_event", ui.workspaceActivated, SampleWorkspaceEvent)
-    # my_addin.add_web_request_event("Export2D_web_request_event", app.openedFromURL, SampleWebRequestOpened)
-    # my_addin.add_command_event("Export2D_command_event", app.userInterface.commandStarting, SampleCommandEvent)
-    # my_addin.add_command_event("Export2D_active_selection_event", ui.activeSelectionChanged, SampleActiveSelectionEvent)
-
-except:
+except Exception as e:
     app = adsk.core.Application.get()
     ui = app.userInterface
     if ui:
-        ui.messageBox('Initialization Failed: {}'.format(traceback.format_exc()))
+        ui.messageBox('Initialization: {}'.format(traceback.format_exc()))
 
 # Set to True to display various useful messages when debugging your app
 debug = False
-
 
 def run(context):
     my_addin.run_app()

@@ -2,6 +2,7 @@ import os.path
 
 app_name = 'Export2D'
 company_name = "Autodesk"
+default_offset = .1
 
 
 # ***Ignore Below this line unless you are sure***
