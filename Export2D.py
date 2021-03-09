@@ -31,7 +31,7 @@ try:
     from .apper import apper
 
     # Import my commands
-    from .commands.DXFerCommands import DXFExportCommand, PDFExportCommand
+    from .commands.ExportCommands import DXFExportCommand, PDFExportCommand
 
     # Create our addin definition object
     my_addin = apper.FusionApp(config.app_name, config.company_name, False)
@@ -47,7 +47,7 @@ try:
             'toolbar_panel_id': '2D Export',
             'toolbar_tab_name': 'TOOLS',
             'toolbar_tab_id': 'ToolsTab',
-            'cmd_resources': 'command_icons',
+            'cmd_resources': 'dxf_icons',
             'command_visible': True,
             'command_promoted': True,
 
@@ -64,7 +64,7 @@ try:
             'toolbar_panel_id': '2D Export',
             'toolbar_tab_name': 'TOOLS',
             'toolbar_tab_id': 'ToolsTab',
-            'cmd_resources': 'command_icons',
+            'cmd_resources': 'pdf_icons',
             'command_visible': True,
             'command_promoted': True,
 
