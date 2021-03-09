@@ -5,4 +5,4 @@ __pycache__/
 .DS_Store
 venv
 lib/*
-!lib/
+!lib/Place_3rd_Party_libraries_here.txt
