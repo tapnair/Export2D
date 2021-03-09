@@ -2,7 +2,7 @@ Export2D
 ========
 Export Fusion 360 model faces as PDF or DXF files
 
-.. image:: commands/resources/readMeCover.png
+.. image:: resources/readMeCover.png
 
 Usage
 -----
@@ -16,13 +16,15 @@ Modification will be likely necessary.
 
 Installation
 ------------
-TODO
+1. `Download the latest distribution <https://github.com/tapnair/Export2D/raw/master/dist/__LATEST__/Export2D.zip>`_
+2. Unzip the archive to a permanent location on your computer
+3. It is important that the directory be named *Export2D*. If you have previously downloaded this or otherwise, make sure the latest version has exactly that directory name.
 
 Requirements
 ^^^^^^^^^^^^
 Credit where credit is due!!!
 
-This sample add-in is built upon the [ezdxf library](https://github.com/mozman/ezdxf/blob/master/docs/source/introduction.rst)
+This sample add-in is built upon the `ezdxf library <https://github.com/mozman/ezdxf/blob/master/docs/source/introduction.rst>`_
 
 Licence
 -------
