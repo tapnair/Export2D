@@ -8,7 +8,9 @@ Usage
 -----
 Select multiple faces and export a single or multiple  DXF or PDF files.
 
-Note: All DXF objects will be moved to the orgin based on the face's orientation.
+Optionally you can define an offset. This would allow you to compensate for a laser kerf for example.
+
+Note: All DXF objects will be moved to the origin based on the face's orientation.
 This may give somewhat unpredictable results.
 Modification will be likely necessary.
 
