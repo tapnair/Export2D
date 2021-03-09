@@ -1,0 +1,13 @@
+
+
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"replace_me",
+	"author":	"Patrick Rainsberry",
+	"description": "Export Fusion 360 model faces as PDF or DXF files",
+	"version":	"0.1.0",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
