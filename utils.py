@@ -1,5 +1,4 @@
 import os
-import subprocess
 import urllib.request
 import zipfile
 
@@ -11,19 +10,14 @@ REPO_URL = 'https://github.com/tapnair/apper/archive/master.zip'
 from . import config
 
 
-def _get_apper(base_dir: str, git) -> bool:
+def _get_apper(base_dir: str) -> bool:
     zip_name = os.path.join(base_dir, f'{REPO}.zip')
     p_bar = ProgressBar()
 
     # Download Apper
     try:
         p_bar.start()
-        if git:
-
-            subprocess.call(['git', 'submodule', 'add', 'https://github.com/tapnair/apper'])
-            return True
-        else:
-            urllib.request.urlretrieve(REPO_URL, zip_name)
+        urllib.request.urlretrieve(REPO_URL, zip_name)
     except Exception as e:
         _install_error(
             f'Failed to connect to download site.  Try manually downloading from:\n'
@@ -58,10 +52,12 @@ def _confirm_apper():
     app = adsk.core.Application.get()
 
     res = app.userInterface.messageBox(
+        '<html>'
         f"You need to installer apper to run this addin: {config.app_name}.\n"
         f"Click here to learn more. <a href=https://apper.readthedocs.io/en/latest/>Click here to learn more.</a>\n"
-        f"Press <b>Yes</b> to confirm.",
-        f"Apper Installation",
+        f"Press <b>Yes</b> to confirm."
+        '</html>',
+        "Apper Installation",
         adsk.core.MessageBoxButtonTypes.YesNoButtonType,
         adsk.core.MessageBoxIconTypes.QuestionIconType,
     )
@@ -72,18 +68,18 @@ def _confirm_apper():
         return True
 
 
-def check_apper(git=False):
+def check_apper():
     if os.path.exists(os.path.join(config.app_path, 'apper', 'apper')):
         return True
     else:
-        _install_apper(git)
+        _install_apper()
 
 
-def _install_apper(git):
+def _install_apper():
     result_confirm = _confirm_apper()
 
     if result_confirm:
-        result_install = _get_apper(config.app_path, git)
+        result_install = _get_apper(config.app_path)
         if result_install:
             return
         else:
