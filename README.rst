@@ -2,7 +2,7 @@ Export2D
 ========
 Export Fusion 360 model faces as PDF or DXF files
 
-![Export2D Cover](./commands/resources/readMeCover.png)
+.. image:: commands/resources/readMeCover.png
 
 Usage
 -----
@@ -24,12 +24,15 @@ This sample add-in is built upon the [ezdxf library](https://github.com/mozman/e
 
 Licence
 -------
-Samples are licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
+`MIT License`_
+
+.. _MIT License: ./LICENSE
 
 Authors
 -------
 `Export2D` was written by `Patrick Rainsberry <patrick.rainsberry@autodesk.com>`_.
 
-See more useful [Fusion 360 Utilities](https://tapnair.github.io/index.html)
+See more useful `Fusion 360 Utilities`_
 
-[![Analytics](https://ga-beacon.appspot.com/UA-41076924-3/DXFer)](https://github.com/igrigorik/ga-beacon)
+.. _Fusion 360 Utilities: https://tapnair.github.io/index.html
+
