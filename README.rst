@@ -2,6 +2,7 @@ Export2D
 ========
 Export Fusion 360 model faces as PDF or DXF files
 
+![Export2D Cover](./commands/resources/readMeCover.png)
 
 Usage
 -----
