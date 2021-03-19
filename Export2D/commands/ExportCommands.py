@@ -260,6 +260,8 @@ class PDFExportCommand(apper.Fusion360CommandBase):
             dxf_file = export_face_as_dxf(face, offset_option, offset_value)
             export_pdf(dxf_file)
             os.remove(dxf_file)
+        ao = apper.AppObjects()
+        ao.ui.messageBox(f'PDF File(s) were exported to: <br>{get_output_path()}')
 
     def on_create(self, command: adsk.core.Command, inputs: adsk.core.CommandInputs):
 
