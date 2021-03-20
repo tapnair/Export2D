@@ -22,27 +22,45 @@ def check_dependency(module_name: str, dependency_name: str):
 
 
 @apper.lib_import(config.lib_path)
-def add_to_dxf(file_name, dxf_option, target_drawing):
+def add_to_dxf(file_name, dxf_option, target_dxf, target_name):
     check_dependency('ezdxf', 'ezdxf')
     import ezdxf
+    import ezdxf.entities
     from ezdxf.addons import Importer
 
-    dwg = ezdxf.readfile(file_name)
+    source_dxf = ezdxf.readfile(file_name)
     obj_name = file_name[file_name.rfind(os.path.pathsep):-4]
+
     if dxf_option == 'Blocks':
-        dwg.blocks.new(obj_name)
-        block = dwg.blocks.get(obj_name)
+        # new_block = source_dxf.blocks.new(name=obj_name)
+        # source_msp = source_dxf.modelspace()
+        #
+        # entity: ezdxf.entities.DXFGraphic
+        # for entity in source_dxf.entities:
+        #     # source_msp.unlink_entity(entity)
+        #     entity.unlink_from_layout()
+        #     new_block.add_entity(entity)
+        # source_msp.add_blockref(obj_name, (0, 0))
 
-        for entity in dwg.entities:
-            dwg.modelspace().unlink_entity(entity)
-            block.add_entity(entity)
+        new_block = target_dxf.blocks.new(name=target_name)
+        importer = Importer(source_dxf, target_dxf)
+        importer.import_entities(source_dxf.modelspace(), new_block)
+        importer.finalize()
 
-    elif dxf_option == 'Layers':
-        for entity in dwg.entities:
-            entity.dxf.layer = obj_name
+        msp = target_dxf.modelspace()
+        msp.add_blockref(target_name, insert=(10, 10))
 
-    importer = Importer(dwg, target_drawing)
-    importer.import_entities(dwg.entities)
+    else:
+        if dxf_option == 'Layers':
+            source_dxf.layers.new(name=target_name)
+            target_dxf.layers.new(name=target_name)
+            for entity in source_dxf.entities:
+                entity.dxf.layer = target_name
+
+        importer = Importer(source_dxf, target_dxf)
+        importer.import_modelspace()
+        # importer.import_entities(source_dxf.entities)
+        importer.finalize()
 
 
 @apper.lib_import(config.lib_path)
@@ -222,13 +240,15 @@ class DXFExportCommand(apper.Fusion360CommandBase):
 
         target_drawing = create_empty_dxf()
 
+        index = 0
         face: adsk.fusion.BRepFace
         for face in input_values['faces']:
             dxf_file = export_face_as_dxf(face, offset_option, offset_value)
 
             if dxf_combine_option:
-                add_to_dxf(dxf_file, dxf_option, target_drawing)
+                add_to_dxf(dxf_file, dxf_option, target_drawing, f'Face_{index}')
                 os.remove(dxf_file)
+            index += 1
 
         if dxf_combine_option:
             file_path = get_output_path()
